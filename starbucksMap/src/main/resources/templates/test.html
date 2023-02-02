@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<!-- 텍스트 -->
+	<p th:text="${test}"></p>
+
+	<!-- 객체 -->
+	<p th:object="${obj}"></p>
+	<p th:text="*{one}"></p>
+	<p th:text="*{two}"></p>
+	<p th:text="*{three}"></p>
+	
+	<!-- 링크 -->
+	<p th:href=@{/link}></p>
+	
+	<!-- 반복문 -->
+	<p th:each="listName : ${list}">
+	<p th:text="${listName.one}"></p>
+	<p th:text="${listName.two}"></p>
+	<p th:text="${listName.three}"></p>
+	
+	<!-- 조건문 -->
+	<th:block th:if="조건">
+	</th:block>
+	<th:block th:unless="조건">
+	</th:block>
+	
+</body>
+</html>
+
+
+

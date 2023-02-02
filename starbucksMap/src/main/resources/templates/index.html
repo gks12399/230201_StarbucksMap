@@ -1,12 +1,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<meta charset="utf-8"/>
+<title>Starbucks Map</title>
 </head>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+<style>
+
+* {
+	font-family: 'Gowun Dodum', sans-serif;
+}
+
+ .btn{
+	background-color: #036635;
+	color: white;
+	padding: 10px;
+	width: 80px;
+	border: none;
+	border-radius: 5px;
+ }
+ 
+ .list{
+ 	margin-left: 25px;
+ 	width: 700px;
+ 	float: left;
+ }
+ 
+ .map{
+ 	margin-left: 30px;
+  	width: 1100px;
+ 	float: left;
+ }
+ th{
+	border-bottom: 2px solid green;
+ }
+ 
+ td{
+	font-size: small;
+	border-bottom: 1px solid olivedrab;
+ }
+</style>
+
 <body>
-
-test
-
+	
+	<center>
+		<h3>전국 스타벅스 지점 안내</h3>
+		<button class="btn" onclick="location.href='/main?rCode=0'">전체</button>
+		<button class="btn" onclick="location.href='/main?rCode=1'">서울/경기</button>
+		<button class="btn" onclick="location.href='/main?rCode=2'">인천</button>
+		<button class="btn" onclick="location.href='/main?rCode=3'">강원</button>
+		<button class="btn" onclick="location.href='/main?rCode=4'">충청</button>
+		<button class="btn" onclick="location.href='/main?rCode=5'">전라</button>
+		<button class="btn" onclick="location.href='/main?rCode=6'">경상</button>
+		<button class="btn" onclick="location.href='/main?rCode=7'">제주</button>
+	</center>
+	
+	<p></p>
+	<div class="list">
+		<table>
+			<tr>
+				<th style="width: 100px;">지역</th>
+				<th style="width: 100px;">지점 유형</th>
+				<th style="width: 130px;">지점명</th>
+				<th style="width: 370px;">지점 위치</th>
+			</tr>
+			<tr th:each="list : ${list}">
+				<td th:text="${list.rText}" style="text-align: center;"></td>
+				<td th:text="${list.tText}"></td>
+				<td th:text="${list.lName}"></td>
+				<td th:text="${list.lAddr}"></td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="map">
+		<div id="map" style="width:1100px;height:750px;"></div>
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b1f54d75fa84ff30c8b5435418c3fec"></script>
+		<script>
+			var container = document.getElementById('map');
+			var options = {
+					
+				// 경도(X): l_long/ 위도(Y): l_lati
+				center: new kakao.maps.LatLng(37.4978266, 127.028614),
+				level: 3
+			};
+	
+			var map = new kakao.maps.Map(container, options);
+		</script>
+	</div>
+	
 </body>
 </html>
