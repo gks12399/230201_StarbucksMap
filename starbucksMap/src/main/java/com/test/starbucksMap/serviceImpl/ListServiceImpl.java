@@ -21,4 +21,16 @@ public class ListServiceImpl implements ListService{
 		return listMapper.selectList(rCode);
 	}
 
+	@Override
+	public ListModel selectDetail(int lId) throws Exception {
+		// TODO Auto-generated method stub
+		return listMapper.selectDetail(lId);
+	}
+
+	@Override
+	public int firstLid(int rCode) throws Exception {
+		// TODO Auto-generated method stub
+		return listMapper.firstLid(rCode);
+	}
+	
 }

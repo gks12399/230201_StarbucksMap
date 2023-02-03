@@ -7,6 +7,8 @@ public class ListModel {
 	private String tType;		// 지점타입
 	private String lName;		// 지점명
 	private String lAddr;		// 지점주소
+	private String lLati;		// 위도
+	private String lLong;		// 경도
 	private String delFlag;		// 삭제여부
 	private String creDate;		// 생성일
 	private String chaDate;		// 생성일
@@ -79,5 +81,17 @@ public class ListModel {
 	}
 	public void setDelDate(String delDate) {
 		this.delDate = delDate;
+	}
+	public String getlLati() {
+		return lLati;
+	}
+	public void setlLati(String lLati) {
+		this.lLati = lLati;
+	}
+	public String getlLong() {
+		return lLong;
+	}
+	public void setlLong(String lLong) {
+		this.lLong = lLong;
 	}
 }

@@ -10,5 +10,9 @@ import com.test.starbucksMap.model.ListModel;
 public interface ListMapper {
 	
 	public List<ListModel> selectList(int rCode) throws Exception;
+
+	public ListModel selectDetail(int lId) throws Exception;
+	
+	public int firstLid(int rCode) throws Exception;
 	
 }
