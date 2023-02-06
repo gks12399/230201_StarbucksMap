@@ -24,11 +24,6 @@ public class MainController {
 		return "test";
 	}
 
-	@GetMapping(value = "/map")
-	public String View() throws Exception {
-		return "map";
-	}
-
 	@GetMapping(value = "/main")
 	public String main(Model model, @RequestParam(defaultValue = "0") int rCode,
 			@RequestParam(defaultValue = "1") int lId, @RequestParam(defaultValue = "H") String flag) throws Exception {
