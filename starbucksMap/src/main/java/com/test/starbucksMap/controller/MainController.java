@@ -17,22 +17,6 @@ public class MainController {
 	@Autowired
 	ListService listService;
 
-	@GetMapping(value = "/test")
-	public String testView(Model model) throws Exception {
-
-		model.addAttribute("test", "타임리프테스트");
-		return "test";
-	}
-
-	@GetMapping(value = "/map")
-	public List<ListModel> View(Model model) throws Exception {
-
-		// 리스트
-		List<ListModel> list = listService.selectList(1);
-		return list;
-
-	}
-
 	@GetMapping(value = "/main")
 	public String main(Model model, @RequestParam(defaultValue = "0") int rCode,
 			@RequestParam(defaultValue = "1") int lId, @RequestParam(defaultValue = "H") String flag) throws Exception {

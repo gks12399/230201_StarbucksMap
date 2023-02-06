@@ -15,21 +15,21 @@ public class ListServiceImpl implements ListService{
 	@Autowired
 	ListMapper listMapper;
 	
+	// 전체 리스트
 	@Override
 	public List<ListModel> selectList(int rCode) throws Exception {
-		// TODO Auto-generated method stub
 		return listMapper.selectList(rCode);
 	}
-
+	
+	// 한 건
 	@Override
 	public ListModel selectDetail(int lId) throws Exception {
-		// TODO Auto-generated method stub
 		return listMapper.selectDetail(lId);
 	}
 
+	// 상단 lId
 	@Override
 	public int firstLid(int rCode) throws Exception {
-		// TODO Auto-generated method stub
 		return listMapper.firstLid(rCode);
 	}
 	
