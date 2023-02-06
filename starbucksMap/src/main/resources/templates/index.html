@@ -8,58 +8,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
 
-<style>
-
-* {
-	font-family: 'Gowun Dodum', sans-serif;
-}
-
- .btn{
-	background-color: #036635;
-	color: white;
-	padding: 10px;
-	width: 80px;
-	border: none;
-	border-radius: 5px;
- }
- 
- .list{
- 	margin-left: 25px;
- 	width: 700px;
- 	float: left;
- }
- 
- .map{
- 	margin-left: 30px;
-  	width: 1100px;
- 	float: left;
- }
- th{
-	border-bottom: 2px solid green;
- }
- 
- td{
-	font-size: small;
-	border-bottom: 1px solid olivedrab;
- }
-</style>
 
 <body>
-	
+
+	<!-- 상단버튼 -->
 	<center>
 		<h3>전국 스타벅스 지점 안내</h3>
-		<button class="btn" onclick="location.href='/main?rCode=0'">전체</button>
-		<button class="btn" onclick="location.href='/main?rCode=1'">서울/경기</button>
-		<button class="btn" onclick="location.href='/main?rCode=2'">인천</button>
-		<button class="btn" onclick="location.href='/main?rCode=3'">강원</button>
-		<button class="btn" onclick="location.href='/main?rCode=4'">충청</button>
-		<button class="btn" onclick="location.href='/main?rCode=5'">전라</button>
-		<button class="btn" onclick="location.href='/main?rCode=6'">경상</button>
-		<button class="btn" onclick="location.href='/main?rCode=7'">제주</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=0,lId=${firstlId},flag='H')}'|">전체</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=1,lId=${firstlId},flag='H')}'|">서울시</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=2,lId=${firstlId},flag='H')}'|">경기도</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=3,lId=${firstlId},flag='H')}'|">인천시</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=4,lId=${firstlId},flag='H')}'|">강원도</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=5,lId=${firstlId},flag='H')}'|">충청도</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=6,lId=${firstlId},flag='H')}'|">전라도</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=7,lId=${firstlId},flag='H')}'|">경상도</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=8,lId=${firstlId},flag='H')}'|">제주도</button>
 	</center>
-	
+
 	<p></p>
+
+	<!-- 지점 목록 -->
 	<div class="list">
 		<table>
 			<tr>
@@ -72,24 +42,91 @@
 				<td th:text="${list.rText}" style="text-align: center;"></td>
 				<td th:text="${list.tText}"></td>
 				<td th:text="${list.lName}"></td>
-				<td th:text="${list.lAddr}"></td>
+				<td ><a th:href="@{/main?(rCode=${rCode}, lId=${list.lId}, flag='I')}" th:text="${list.lAddr}"></td>
 			</tr>
 		</table>
 	</div>
 	
+	<!--마커 인포 -->
+	<div id="mapInfo" style="padding:10px; font-size: small;">
+		<span th:text=${detail.lName} style="font-weight: bold;"></span><br>
+		<span>1522-3232</span><br>
+		<span>10:00 - 22:00</span>
+	</div>
+	
+	<!-- 위도/경도/타입 -->
+	<input type="hidden" id="lati" th:value="${detail.lLati}">
+	<input type="hidden" id="long" th:value="${detail.lLong}">
+	<input type="hidden" id="type" th:value="${detail.tType}">
+	
+	<!-- 지도 -->
 	<div class="map">
-		<div id="map" style="width:1100px;height:750px;"></div>
-		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b1f54d75fa84ff30c8b5435418c3fec"></script>
+		
+		<!-- 지도가 그려질 부분 -->
+		<div id="map" style="width:1100px;height:750px;">
+		</div>
+		
+		<!-- Appkey, library 지정 -->
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3b1f54d75fa84ff30c8b5435418c3fec&libraries=services,clusterer,drawing"></script>
+		
+		<!-- 지도 구현 -->
 		<script>
-			var container = document.getElementById('map');
+		
+
+
+		/* ----위도/경도---------------------------------------------------------------------------------- */
+			var latitude = document.getElementById('lati').value;
+			var longitude = document.getElementById('long').value;
+			
+		/* ----지도생성----------------------------------------------------------------------------------- */
+			var container = document.getElementById('map'); // 지도를 표시할 div 
+			
 			var options = {
-					
-				// 경도(X): l_long/ 위도(Y): l_lati
-				center: new kakao.maps.LatLng(37.4978266, 127.028614),
-				level: 3
+
+				center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+				level: 3 // 지도의 확대 레벨
 			};
 	
-			var map = new kakao.maps.Map(container, options);
+			var map = new kakao.maps.Map(container, options); // 지도를 생성
+			
+			
+		/* ----마커생성----------------------------------------------------------------------------------- */
+			var markerPosition  = new kakao.maps.LatLng(latitude, longitude); // 마커 표시 위치
+			var imageSize = new kakao.maps.Size(50, 50); // 이미지 크기
+
+			var imageSrc = ""; // 이미지 주소
+			var type = document.getElementById('type').value; //지점타입
+			
+			if (type =="G") imageSrc = "/image/green.png";
+			else if (type=="R") imageSrc = "/image/gray.png";
+			else if (type=="C") imageSrc = "/image/yellow.png";
+			else if (type=="D") imageSrc = "/image/blue.png";
+			else imageSrc = "/image/red.png";
+			
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); // 마커 이미지 생성
+			
+			// 마커를 생성
+			var marker = new kakao.maps.Marker({
+			    position: markerPosition, // 마커 위치
+			    image : markerImage // 마커 이미지 
+			});
+			
+			marker.setMap(map); // 지도 위에 마커 표시
+			
+			// marker.setMap(null); // 지도 위의 마커 제거
+			
+		/* ----마커인포생성--------------------------------------------------------------------------------- */
+			var iwContent = document.getElementById('mapInfo'); // 인포윈도우에 표출될 내용
+    		iwPosition = new kakao.maps.LatLng(latitude, longitude); //인포윈도우 표시 위치
+			
+		 	// 인포윈도우를 생성
+		    var infowindow = new kakao.maps.InfoWindow({
+		        position : iwPosition, 
+		        content : iwContent 
+		    });
+    
+		    infowindow.open(map, marker); // 마커 위에 인포윈도우를 표시
+		    
 		</script>
 	</div>
 	

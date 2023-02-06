@@ -1,0 +1,43 @@
+@charset "UTF-8";
+
+* {
+	font-family: 'Gowun Dodum', sans-serif;
+}
+
+.btn {
+	background-color: #036635;
+	color: white;
+	padding: 10px;
+	width: 80px;
+	border: none;
+	border-radius: 5px;
+}
+
+.list {
+	margin-left: 30px;
+	width: 700px;
+	float: left;
+	overflow: auto;
+	height: 750px;
+}
+
+.map {
+	margin-left: 30px;
+	width: 1100px;
+	float: left;
+}
+
+th {
+	border-bottom: 2px solid green;
+}
+
+td {
+	font-size: small;
+	border-bottom: 1px solid olivedrab;
+}
+
+a {
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
+}

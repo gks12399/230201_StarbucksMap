@@ -11,32 +11,60 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.test.starbucksMap.model.ListModel;
 import com.test.starbucksMap.service.ListService;
 
-
 @Controller
 public class MainController {
-	
+
 	@Autowired
 	ListService listService;
-	
+
 	@GetMapping(value = "/test")
 	public String testView(Model model) throws Exception {
-		
+
 		model.addAttribute("test", "타임리프테스트");
 		return "test";
 	}
 
+	@GetMapping(value = "/map")
+	public List<ListModel> View(Model model) throws Exception {
+
+		// 리스트
+		List<ListModel> list = listService.selectList(1);
+		return list;
+
+	}
+
 	@GetMapping(value = "/main")
-	public String mainView(Model model, @RequestParam(defaultValue = "0") int rCode) throws Exception {
-		
+	public String main(Model model, @RequestParam(defaultValue = "0") int rCode,
+			@RequestParam(defaultValue = "1") int lId, @RequestParam(defaultValue = "H") String flag) throws Exception {
+
+		// 리스트
 		List<ListModel> list = listService.selectList(rCode);
 		model.addAttribute("list", list);
-		
+
+		// 한 건
+		int firstlId = 1;
+
+		// herder button
+		if (flag.equals("H")) {
+			if (rCode != 0) {
+				firstlId = listService.firstLid(rCode);
+			} else {
+				firstlId = 1;
+			}
+			ListModel detail = listService.selectDetail(firstlId);
+			model.addAttribute("detail", detail);
+		}
+
+		// list-item button
+		else {
+			ListModel detail = listService.selectDetail(lId);
+			model.addAttribute("detail", detail);
+		}
+
+		model.addAttribute("rCode", rCode);
+		model.addAttribute("lId", lId);
+		model.addAttribute("firstlId", firstlId);
+
 		return "index";
 	}
-	
-	@GetMapping(value = "/map")
-	public String View() throws Exception {
-		return "map";
-	}
-	
 }

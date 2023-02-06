@@ -16,7 +16,26 @@
 		 <if test="rCode != 0">
 		   AND l.r_code = #{rCode}
 		 </if>
+		 ORDER BY l.r_code
+	</select>
+	
+	<select id="selectDetail" parameterType="int" resultType="com.test.starbucksMap.model.ListModel">
+	    SELECT l.*, r.r_text, t.t_text
+	 	  FROM tb_list AS l
+	 	 INNER JOIN tb_region AS r 
+		    ON l.r_code = r.r_code
+		 INNER JOIN tb_type AS t 
+		    ON l.t_type = t.t_code
+		 WHERE l.del_flag = 'N'
+		   AND l.l_id = #{lId}
 		 ORDER BY l.r_code; 
+	</select>
+	
+	<select id="firstLid" parameterType="int" resultType="int">
+	    SELECT MIN(l_id)
+	      FROM tb_list
+	     WHERE r_code = #{rCode}
+	     ORDER BY r_code DESC, l_id DESC
 	</select>
 	
 </mapper>
