@@ -17,13 +17,6 @@ public class MainController {
 	@Autowired
 	ListService listService;
 
-	@GetMapping(value = "/test")
-	public String testView(Model model) throws Exception {
-
-		model.addAttribute("test", "타임리프테스트");
-		return "test";
-	}
-
 	@GetMapping(value = "/main")
 	public String main(Model model, @RequestParam(defaultValue = "0") int rCode,
 			@RequestParam(defaultValue = "1") int lId, @RequestParam(defaultValue = "H") String flag) throws Exception {
@@ -35,7 +28,6 @@ public class MainController {
 		// 한 건
 		int firstlId = 1;
 
-		
 		if (flag.equals("H")) {
 			if (rCode != 0) {
 				firstlId = listService.firstLid(rCode);
