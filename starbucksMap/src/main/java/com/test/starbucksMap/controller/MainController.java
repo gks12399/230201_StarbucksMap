@@ -24,42 +24,43 @@ public class MainController {
 		return "test";
 	}
 
-	@GetMapping(value = "/main")
-	public String mainView(Model model, @RequestParam(defaultValue = "0") int rCode,
-			@RequestParam(defaultValue = "1") int lId) throws Exception {
-		
-		// 리스트
-		List<ListModel> list = listService.selectList(rCode);
-		model.addAttribute("list", list);
-		
-		// 한 건
-		
-		int firstlId = 1;
-		
-		if (rCode != 0) {
-			firstlId = listService.firstLid(rCode);
-		}
-		else {
-			firstlId = 1;
-		}
-
-		ListModel detail = listService.selectDetail(lId);
-		model.addAttribute("detail", detail);
-		
-		model.addAttribute("rCode", rCode);
-		model.addAttribute("firstlId", firstlId);
-		
-		System.out.println("rCode : " + rCode);
-		System.out.println("lId : " + lId);
-		System.out.println("firstlId : " + firstlId);
-		System.out.println("-----------------------");
-		
-		return "index";
-	}
-
 	@GetMapping(value = "/map")
 	public String View() throws Exception {
 		return "map";
+	}
+
+	@GetMapping(value = "/main")
+	public String main(Model model, @RequestParam(defaultValue = "0") int rCode,
+			@RequestParam(defaultValue = "1") int lId, @RequestParam(defaultValue = "H") String flag) throws Exception {
+
+		// 리스트
+		List<ListModel> list = listService.selectList(rCode);
+		model.addAttribute("list", list);
+
+		// 한 건
+		int firstlId = 1;
+
+		
+		if (flag.equals("H")) {
+			if (rCode != 0) {
+				firstlId = listService.firstLid(rCode);
+			} else {
+				firstlId = 1;
+			}
+			ListModel detail = listService.selectDetail(firstlId);
+			model.addAttribute("detail", detail);
+		}
+		
+		else {
+			ListModel detail = listService.selectDetail(lId);
+			model.addAttribute("detail", detail);
+		}
+
+		model.addAttribute("rCode", rCode);
+		model.addAttribute("lId", lId);
+		model.addAttribute("firstlId", firstlId);
+
+		return "index";
 	}
 
 }

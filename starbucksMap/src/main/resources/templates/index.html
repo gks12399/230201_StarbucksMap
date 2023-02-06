@@ -15,14 +15,15 @@
 	<!-- 상단버튼 -->
 	<center>
 		<h3>전국 스타벅스 지점 안내</h3>
-		<button class="btn" th:onclick="|location.href='@{main(rCode=0,firstlId=${firstlId})}'|">전체</button>
-		<button class="btn" th:onclick="|location.href='@{main(rCode=1,firstlId=${firstlId})}'|">서울/경기</button>
-		<button class="btn" th:onclick="|location.href='@{main(rCode=2,firstlId=${firstlId})}'|">인천</button>
-		<button class="btn" th:onclick="|location.href='@{main(rCode=3,firstlId=${firstlId})}'|">강원</button>
-		<button class="btn" th:onclick="|location.href='@{main(rCode=4,firstlId=${firstlId})}'|">충청</button>
-		<button class="btn" th:onclick="|location.href='@{main(rCode=5,firstlId=${firstlId})}'|">전라</button>
-		<button class="btn" th:onclick="|location.href='@{main(rCode=6,firstlId=${firstlId})}'|">경상</button>
-		<button class="btn" th:onclick="|location.href='@{main(rCode=7,firstlId=${firstlId})}'|">제주</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=0,lId=${firstlId},flag='H')}'|">전체</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=1,lId=${firstlId},flag='H')}'|">서울시</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=2,lId=${firstlId},flag='H')}'|">경기도</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=3,lId=${firstlId},flag='H')}'|">인천시</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=4,lId=${firstlId},flag='H')}'|">강원도</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=5,lId=${firstlId},flag='H')}'|">충청도</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=6,lId=${firstlId},flag='H')}'|">전라도</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=7,lId=${firstlId},flag='H')}'|">경상도</button>
+		<button class="btn" th:onclick="|location.href='@{main(rCode=8,lId=${firstlId},flag='H')}'|">제주도</button>
 	</center>
 
 	<p></p>
@@ -40,7 +41,7 @@
 				<td th:text="${list.rText}" style="text-align: center;"></td>
 				<td th:text="${list.tText}"></td>
 				<td th:text="${list.lName}"></td>
-				<td ><a th:href="@{/main?(rCode=${rCode}, lId=${list.lId})}" th:text="${list.lAddr}"></td>
+				<td ><a th:href="@{/main?(rCode=${rCode}, lId=${list.lId}, flag='I')}" th:text="${list.lAddr}"></td>
 			</tr>
 		</table>
 	</div>
